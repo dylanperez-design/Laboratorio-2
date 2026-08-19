@@ -1,7 +1,9 @@
+import java.util.List;
+import java.util.ArrayList;
 
 public class Main
 { 
-    public abstract class Sensor{
+    public static abstract class Sensor{
         private final String id;
         private final String ubicacion;
         private volatile boolean activo;
@@ -22,7 +24,7 @@ public class Main
         public abstract String evaluarEstado();
     }
 
-    public class SensorHumedadSuelo extends Sensor{
+    public static class SensorHumedadSuelo extends Sensor{
         private double humedadPct;
 
         public SensorHumedadSuelo(String id, String ubicacion, boolean activo, double humedadPct){
@@ -49,7 +51,7 @@ public class Main
         }
     }
 
-    public class SensorTemperatura extends Sensor{
+    public static class SensorTemperatura extends Sensor{
         private double celsius;
 
         public SensorTemperatura(String id, String ubicacion, boolean activo, double celsius){
@@ -75,8 +77,40 @@ public class Main
             }
         }
     }
+
+    public static class EstacionMonitoreo{
+        private List<Sensor> sensores;
+
+        public EstacionMonitoreo(){
+            sensores = new ArrayList<>();
+        }
+        
+        public void agregarSensor(Sensor sensor){
+            sensores.add(sensor);
+        }
+
+        public void procesarlecturas(){
+            for(Sensor sensor:sensores){
+                double lectura = sensor.tomarLectura();
+
+                System.out.println("Sensor " + sensor.getId() + " - Lectura:" + lectura);
+            }
+        }
+
+        public List<Sensor> filtrarCriticos(){
+            List<Sensor> criticos = new ArrayList<>();
+
+            for(Sensor sensor: sensores){
+                if(sensor.evaluarEstado().equals("critico")){
+                    criticos.add(sensor);
+                }
+            }
+            return criticos;
+        }
+    }  
+
     public static void main(String[] args) {
-		
-		
-	}
+        	
+        
+    }
 }
