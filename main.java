@@ -110,7 +110,26 @@ public class Main
     }  
 
     public static void main(String[] args) {
-        	
+        EstacionMonitoreo estacion = new EstacionMonitoreo();
+		Sensor S1 = new SensorHumedadSuelo("H01", "Cultivo", true, 0);
+        Sensor S2 = new SensorTemperatura("T01", "Zona 1", true, 0);
+		Sensor S3 = new SensorTemperatura("T02", "Zona 2", true, 0);
+		Sensor S4 = new SensorHumedadSuelo("H02", "Sembradio", true, 0);
+		Sensor S5 = new SensorHumedadSuelo("H03", "Plantacion", true, 0);
+
+        estacion.agregarSensor(S1);
+        estacion.agregarSensor(S2);
+        estacion.agregarSensor(S3);
+        estacion.agregarSensor(S4);
+        estacion.agregarSensor(S5);
+
+        estacion.procesarlecturas();
+        
+        List<Sensor> criticos = estacion.filtrarCriticos();
+        System.out.println("Sensores en estado critico");
+        for(Sensor sensor:criticos){
+            System.out.println("Sensor " + sensor.getId());
+        }
         
     }
 }
